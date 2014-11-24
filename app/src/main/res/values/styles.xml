@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="PhotosGridView">
+        <item name="android:horizontalSpacing">@dimen/gridview_spacing</item>
+        <item name="android:listSelector">@drawable/selectable_background_photup</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:verticalSpacing">@dimen/gridview_spacing</item>
+    </style>
+    <style name="PhotupSpinner"></style>
+</resources>

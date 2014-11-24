@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_med">#ff33b5e5</color>
+    <color name="blue_light">#ff6FCDF7</color>
+
+    <color name="item_bg_mid">@color/blue_med</color>
+    <color name="item_bg_light">@color/blue_light</color>
+    <color name="pressed_photup">#CC6fccf7</color>
+</resources>
