@@ -68,7 +68,7 @@ public class UserPhotoAdapter extends ResourceCursorAdapter {
         Bitmap bitmap = null;
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile( photoPath, options );
-        options.inSampleSize = 16;//calculateImageSampleSize( options, width, height );
+        options.inSampleSize = 8;//calculateImageSampleSize( options, width, height );
         options.inJustDecodeBounds = false;
         options.inPreferredConfig= Bitmap.Config.ALPHA_8;
         bitmap = BitmapFactory.decodeFile( photoPath, options );
