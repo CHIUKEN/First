@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
 
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 
 public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     static final int RESULT_CAMERA = 101;
@@ -37,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         mPhotoGrid = (GridView) findViewById(R.id.gv_photos);
         mPhotoAdapter = new UserPhotoAdapter(this, null);
         mPhotoGrid.setAdapter(mPhotoAdapter);
+
     }
 
 

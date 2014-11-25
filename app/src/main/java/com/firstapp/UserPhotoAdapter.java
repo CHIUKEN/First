@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ResourceCursorAdapter;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 /**
  * Created by K on 2014/11/24.
  */
@@ -21,6 +25,8 @@ public class UserPhotoAdapter extends ResourceCursorAdapter {
     BitmapFactory.Options options;
     private static final int PHOTO_WIDTH = 120;
     private static final int PHOTO_HEIGHT = 120;
+    private ImageLoader imageLoader;
+    private DisplayImageOptions displayImageOptionsoptions;
     public UserPhotoAdapter(Context context, Cursor c) {
         super(context, R.layout.item_grid_photo_user, c, 0);
         // 取得app可用的最大記憶體
@@ -37,7 +43,30 @@ public class UserPhotoAdapter extends ResourceCursorAdapter {
         };
 
         options = new BitmapFactory.Options();
+
         options.inSampleSize=8;
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
+                .diskCacheExtraOptions(480, 800, null)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCacheSize(2 * 512 * 512)
+                .memoryCacheSizePercentage(13) // default
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(100)
+                .writeDebugLogs()
+                .build();
+        displayImageOptionsoptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_launcher) // resource or drawable
+                .showImageForEmptyUri(R.drawable.ic_launcher) // resource or drawable
+                .showImageOnFail(R.drawable.ic_launcher) // resource or drawable
+                .resetViewBeforeLoading(false)  // default
+               // .delayBeforeLoading(1000)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.ARGB_4444) // default
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(config);
     }
 
     @Override
@@ -45,14 +74,16 @@ public class UserPhotoAdapter extends ResourceCursorAdapter {
         ImageView img = (ImageView) view.findViewById(R.id.imageView);
         String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 
-        Bitmap bm = getBitmapFromMemoryCache(path);
-        if (bm == null) {
-            bm = loadBitmapFromFile(path,PHOTO_WIDTH,PHOTO_HEIGHT);
-            addBitmapToMemoryCache(path, bm);
-        } else {
-            bm = getBitmapFromMemoryCache(path);
-        }
-        img.setImageBitmap(bm);
+        imageLoader.displayImage("file://"+path,img,displayImageOptionsoptions,null);
+
+//        Bitmap bm = getBitmapFromMemoryCache(path);
+//        if (bm == null) {
+//            bm = loadBitmapFromFile(path,PHOTO_WIDTH,PHOTO_HEIGHT);
+//            addBitmapToMemoryCache(path, bm);
+//        } else {
+//            bm = getBitmapFromMemoryCache(path);
+//        }
+//        img.setImageBitmap(bm);
     }
     /**
      * 從手機儲存載入圖片。
